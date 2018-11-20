@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div class="login_top clearfix">
-		<a href="{% url 'books:index'%}" class="login_logo"><img src="{% static 'images/logo.png' %}" style="width: 160px; height: 53px;"></a>	
+		<a href="{% url 'books:index' %}" class="login_logo"><img src="{% static 'images/logo.png' %}" style="width: 160px; height: 53px;"></a>	
 	</div>
 
 	<div class="login_form_bg">
@@ -22,17 +22,18 @@
 					<a href="{% url 'users:register'%}">立即注册</a>
 				</div>
 				<div class="form_input">
-					<form>
-						<input type="text" v-model="username" class="name_input" placeholder="请输入用户名">
+					<form id="app">
+                                         
+						<input type="text" name="username" class="name_input" value="{{username}}" placeholder="请输入用户名">
 						<div class="user_error">输入错误</div>
-						<input type="password" v-model="password" class="pass_input" placeholder="请输入密码">
+						<input type="password" name="password" class="pass_input" placeholder="请输入密码">
 						<div class="pwd_error">输入错误</div>
 						<div class="more_input clearfix">
-							<input type="checkbox" v-model="remember">
+							<input type="checkbox" name="remember" {{checked}}>
 							<label>记住用户名</label>
 							<a href="#">忘记密码</a>
 						</div>
-						<input id="app" @click="submit"  type="button" name="" value="登录" class="input_submit">
+						<input  id="submit"  type="button" name="" value="登录" class="input_submit">
 					</form>
 				</div>
 			</div>
@@ -42,7 +43,7 @@
 	
 					
 
-   {% csrf_token %}
+
 
 	<div class="footer">
 		<div class="foot_link">
@@ -73,48 +74,42 @@
 		<p>CopyRight © 2016 北京尚硅谷信息技术有限公司 All Rights Reserved</p>
 		<p>电话：010-****888    京ICP备*******8号</p>
 	</div>
-<script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.js"></script>
-<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+<!--<script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script> -->
+<script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
 <script>
-  var app = new Vue({
-  el:'#app',
-  data:{
-      message:'Hello vue!',
-      username: '',
-      password: '',
-      remember: false,
-      csrfmiddlewaretoken:''  
-  },
-  var csrftoken = 
-  methods:{
-      submit(){
-          var params = {
-              username:this.username,
-              password:this.password,
-              remember:this.remember,
-              csrfmiddlewaretoken:this.csrfmiddlewaretoken
-  }
-     
-  
-  axios.post("{% url 'users:login_check' %}",params)
-  .catch(function (error) {
-      if (error.response) {
-      // 请求已发出，但服务器响应的状态码不在 2xx 范围内
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log('Error', error.message);
-    }
-    console.log(error.config);
-  });
-     }
-    }
-  })
-	  
+  document.cookie="csrftoken=w87CzYN4N4ka3wYCH7stl8vAHUJmjn0J"
+  $(function(){
+      $("#submit").click(function(){
+           var username = $('input[name="username"]').val();
+           var password = $('input[name="password"]').val();
+           var remember = $('input[name="remember"]').prop('checked');
+  //          var csrfmiddletoken = $('input[name="csrfmiddlewaretoken"]').val();
+           $ .ajax({
+               url:'{% url "users:login_check" %}',
+               method : 'post',
+               data:{
+                    username: username,
+                    password: password,
+                    remember: remember,  
+                    csrfmiddlewaretoken:'FeN5AZfB7aLjSSdTJSyaqEl0rBsgt80',
+                },
+                success: function(callback){
+                             if(callback.res == 1){
+                               window.location.href = callback.next_url;
 
-	  
+                         }else if(callback.res ==2){
+                               alert('data not enough');
+                               password = $('input[name="password"]').val('')
+                      } else if (callback.res == 0 ){
+                          alert('usernam or password misstake')
+                      }
+           }
+            })  
+        });
+   return false;
+  })
+
 </script>
 </body>
 </html>

@@ -54,15 +54,16 @@ books-detail
 			<div class="book_num clearfix">
 				<div class="num_name fl">数 量：</div>
 				<div class="num_add fl">
-					<input type="text" class="num_show fl" value="1">
+					<input type="text" class="num_show fl" value="0">
 					<a href="javascript:;" class="add fr">+</a>
 					<a href="javascript:;" class="minus fr">-</a>	
 				</div> 
 			</div>
+                  {% csrf_token %}
 			<div class="total">总价：<em>100元</em></div>
 			<div class="operate_btn">
 				<a href="javascript:;" class="buy_btn">立即购买</a>
-				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>				
+				<a href="javascript:;" books_id="{{books.id}}" class="add_cart" id="add_cart">加入购物车</a>				
 			</div>
 		</div>
 	</div>
@@ -76,7 +77,7 @@ books-detail
 					<li>
 						<a href="#"><img src="{{books.image.url}}"></a>
 						<h4><a href="#">{{books.name}}</a></h4>
-						<div class="prize">￥{{books.price}}</div>
+						<div class="price">￥{{books.price}}</div>
 					</li>
 {% endfor %}
 				</ul>
@@ -102,8 +103,71 @@ books-detail
 
 {% block script %}
 
-	<script type="text/javascript" src="{% static 'js/jquery-1.12.2.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
 	<script type="text/javascript">
+           $.get('/cart/count/', function(data){
+	   $('#show_count').html(data.res)
+	   })
+
+          $('#add_cart').click(function(){
+              var books_id = $(this).attr('books_id');
+	      var books_count = $('.num_show').val();
+              var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+              var params = {
+                    'books_id':books_id,
+                    'books_count': books_count,
+                    'csrfmiddlewaretoken': csrf
+              }
+            $.post('/cart/add/', params, function(data){
+                if(data.res == 5){
+                     var count = $('#show_count').html();
+                     var count = parseInt(count) + parseInt(books_count);
+                     $('#show_count').html(count);
+                 }else{
+                     alert(data.errmsg)
+                  }
+            })
+	  })
+
+	  $(function(){
+	      update_total_price()
+	      function update_total_price(){
+                  books_price = $('.show_pirze').children('em').text()
+                  books_count = $('.num_show').val()    
+                  books_price = parseFloat(books_price)
+                  books_count = parseInt(books_count)
+                  total_price = books_price * books_count
+
+                  $('.total').children('em').text(total_price.toFixed(2) + '$')
+             }
+
+           $('.add').click(function(){
+                books_count = $('.num_show').val()
+                books_count = parseInt(books_count) +1 
+                $('.num_show').val(books_count)
+                update_total_price()
+             })
+           
+            $('.minus').click(function(){
+                books_count = $('.num_show').val()
+                if(books_count > 0){
+                books_count = parseInt(books_count) - 1
+                  }
+                $('.num_show').val(books_count)
+                update_total_price()
+             })
+            
+             $('.num_show').blur(function(){
+                 books_count = $(this).val()
+                 if (isNaN(books_count) || books_count.trim().length == 0||parseInt(books_count)<=0){
+                     books_count = 1
+                 }
+                 $('.num_show').val(parseInt(books_count))
+                 update_total_price()
+              })
+	  })
 	</script>
 {% endblock%}	
 
+
+	

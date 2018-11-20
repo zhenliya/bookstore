@@ -28,31 +28,37 @@ def register_handle(request):
      return redirect(reverse('books:index'))
 
 def login_check(request):
+    print('++++++++login_check')
     username = request.POST.get('username')
     password = request.POST.get('password')
     remember = request.POST.get('remember')
+    print('++++++++username.password.remember+++++',username,password,remember)
 
-    if not all([username, password, remember]):
+    if not all([username, password]):
+        
         return JsonResponse({'res': 2})
 
     passport = Passport.objects.get_one_passport(username=username, password=password)
-    print(username, password,remember)
+    print('++++++++passport+++++',passport)
     if passport:
         next_url = reverse('books:index')
         jires = JsonResponse({'res':1, 'next_url':next_url})
 
         if remember == 'true':
-            
+            print('++++++++++++cheked+++++++++++',remember)  
             jires.set_cookie('username', username, max_age=7*24*3600)
         else:
+            print('+++++++++++remember++++++++++',remember)
             jires.delete_cookie('username')
 
         request.session['islogin'] = True
         request.session['username'] = username
         request.session['passport_id'] = passport.id
-        print (jires)
+        print('++++++++request.islogin++++++++',request.session['islogin'])
+        print ('+++++++jires++++++',jires)
         return jires
     else:
+        print('00000000000000000')
         return JsonResponse({'res': 0})
      
 def logout(request):
@@ -73,6 +79,5 @@ def user(request):
         'addr': addr,
         'page': 'user',
         'books_li': books_li
-        }
-
+   }
     return render(request, 'users/user_center_info.html', context)

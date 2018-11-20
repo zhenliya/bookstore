@@ -1,7 +1,7 @@
-from hashlib import sha256
+from hashlib import sha1
 
 def get_hash(str):
-    sh = sha256()
+    sh = sha1()
     sh.update(str.encode('utf8'))
     return sh.hexdigest()
 

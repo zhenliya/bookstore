@@ -20,8 +20,9 @@
 			<div class="welcome fl">welcome to zria's bookstore!</div>
 			<div class="fr">
 			      {% if request.session.islogin %}
-				<div class="login_info fl">
+				<div class="login_btn fl">
 				  欢迎您：<em>{{request.session.username}}</em>
+                                  <span>|</span>
 				  <a href="{% url 'users:logout' %}">logout</a>
 				</div>
 				{% else %}
@@ -35,7 +36,7 @@
 					<span>|</span>
 					<a href="{% url 'users:user' %}">用户中心</a>
 					<span>|</span>
-					<a href="cart.html">我的购物车</a>
+					<a href="{% url 'cart:show' %}">我的购物车</a>
 					<span>|</span>
 					<a href="user_center_order.html">我的订单</a>
 				</div>
@@ -50,8 +51,8 @@
 			<input type="button" class="input_btn fr" name="" value="搜索">
 		</div>
 		<div class="guest_cart fr">
-			<a href="#" class="cart_name fl">我的购物车</a>
-			<div class="book_count fl">1</div>
+			<a href="{% url 'cart:show' %}" class="cart_name fl">我的购物车</a>
+			<div id="show_count" class="book_count fl">0</div>
 		</div>
  	</div>	
 	{% endblock %}
@@ -73,6 +74,13 @@
 	</div>
 	<div class="add_jump"></div>
 	{% block script %}
+         <script type="text/javascript">
+           $.get('/cart/count/', function(data){
+	   $('#show_count').html(data.res)
+
+	   })
+
+	</script>
 	{% endblock %}
 </body>
 </html>

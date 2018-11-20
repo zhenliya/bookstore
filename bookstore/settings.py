@@ -26,6 +26,7 @@ SECRET_KEY = '=d01gnk*@j&8vfhnmhpk)98$@#klwuc#qxtnc275pkz(5qab!c'
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+CSRF_COOKIE_NAME='csrftoken'
 
 
 # Application definition
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
     'users',
     'books',
     'tinymce',
+    'cart',
+    'order',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +141,17 @@ TINYMCE_DEFAULT_CONFIG={
     'width':600,
     'height':400,
     }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://localhost:6379/2',
+        'OPTIONS': {
+            'CLIENT_CLASS':'django_redis.client.DefaultClient',
+            'PASSWORD':''
+        }
+    }
+}
+
+SESSION_ENGIN = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'

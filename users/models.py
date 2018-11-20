@@ -10,7 +10,7 @@ class PassportManager(models.Manager):
 
     def get_one_passport(self, username, password):
         try:
-            passport = serlf.get(username=username, password=get_hash(password))
+            passport = self.get(username=username, password=get_hash(password))
             print('passport',passport)
         except self.model.DoesNotExist:
             passport = None

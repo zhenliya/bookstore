@@ -40,10 +40,10 @@ BookStore index
 			<div class="subtitle fl">
 			  <span>|</span>
 			  {% for book in python_new%}
-				<a href="#">{{book.name}}</a>
+				<a href="{% url 'books:detail' book.id %}">{{book.name}}</a>
 			   {% endfor %}
 			</div>
-			<a href="#" class="book_more fr">查看更多 ></a>
+			<a href="{% url 'books:list' type_id=1 page=1 %}" class="book_more fr">查看更多 ></a>
 		</div>
 
 		<div class="book_con clearfix">
@@ -51,8 +51,8 @@ BookStore index
 			  <ul class="book_list fl">
 			    {% for book in python_hot %}
 				<li>
-					<h4><a href="#">{{book.name}}</a></h4>
-					<a href="#"><img src="{{MEDIA_URL}}{{book.image}}"></a>
+					<h4><a href="{% url 'books:detail' book.id %}">{{book.name}}</a></h4>
+					<a href="{% url 'books:detail' book.id %}"><img src="{{MEDIA_URL}}{{book.image}}"></a>
 					<div class="prize">¥ {{ book.price}}</div>
 				</li>
                              {% endfor %}
@@ -66,11 +66,11 @@ BookStore index
 			<div class="subtitle fl">
 			  <span>|</span>
 			  {% for book in javascript_new %}
-				<a href="#">{{book.name}}</a>
+				<a href="{% url 'books:detail' book.id %}">{{book.name}}</a>
 			
 			  {%endfor %}
 			</div>
-			<a href="#" class="book_more fr">查看更多 ></a>
+			<a href="{% url 'books:list' type_id=2 page=1 %}" class="book_more fr">查看更多 ></a>
 		</div>
 
 		<div class="book_con clearfix">
@@ -93,10 +93,10 @@ BookStore index
 			<div class="subtitle fl">
 			  <span>|</span>
 			  {% for book in algorithms_new %}
-				<a href="#">{{book.name}}</a>
+				<a href="{% url 'books:detail' book.id %}">{{book.name}}</a>
                           {% endfor %}
 			</div>
-			<a href="#" class="book_more fr">查看更多 ></a>
+			<a href="{% url 'books:list' type_id=3 page=1 %}" class="book_more fr">查看更多 ></a>
 		</div>
 
 		<div class="book_con clearfix">
@@ -104,8 +104,8 @@ BookStore index
 			  <ul class="book_list fl">
 			    {% for book in algorithms_hot %}
 				<li>
-					<h4><a href="#">{{book.name}}</a></h4>
-					<a href="#"><img src="{{MEDIA_URL}}{{book.image}}"></a>
+					<h4><a href="{% url 'books:detail' book.id %}">{{book.name}}</a></h4>
+					<a href="{% url 'books:detail' book.id %}"><img src="{{MEDIA_URL}}{{book.image}}"></a>
 					<div class="prize">¥ {{book.price}}</div>
 				</li>
 			     {% endfor %}
@@ -119,10 +119,10 @@ BookStore index
 			<div class="subtitle fl">
 			  <span>|</span>
 			  {% for book in machinelearning_new %}
-				<a href="#">{{book.name}}</a>
+				<a href="{% url 'books:detail' book.id %}">{{book.name}}</a>
                           {% endfor %}
        			</div>
-			<a href="#" class="book_more fr">查看更多 ></a>
+			<a href="{% url 'books:list' type_id=4 page=1 %}" class="book_more fr">查看更多 ></a>
 		</div>
 
 		<div class="book_con clearfix">
@@ -130,8 +130,8 @@ BookStore index
 			  <ul class="book_list fl">
 			    {% for book in machinelearning_hot %}
 				<li>
-					<h4><a href="#">{{book.name}}</a></h4>
-					<a href="#"><img src="{{MEDIA_URL}}{{book.image}}">
+					<h4><a href="{% url 'books:detail' book.id %}">{{book.name}}</a></h4>
+					<a href="{% url 'books:detail' book.id %}"><img src="{{MEDIA_URL}}{{book.image}}">
 					  <div class="prize">¥ {{book.price}}</div>
 				</li>
 
@@ -146,10 +146,10 @@ BookStore index
 			<div class="subtitle fl">
 			  <span>|</span>
 			  {% for book in operatingsystem_new %}
-				<a href="#">{{book.name}}</a>
+				<a href="{% url 'books:detail' book.id %}">{{book.name}}</a>
                           {% endfor %}
 			</div>
-			<a href="#" class="book_more fr">查看更多 ></a>
+			<a href="{% url 'books:list' type_id=5 page=1 %}" class="book_more fr">查看更多 ></a>
 		</div>
 
 		<div class="book_con clearfix">
@@ -157,8 +157,8 @@ BookStore index
 			  <ul class="book_list fl">
 			    {% for book in operatingsystem_new %}
 				<li>
-					<h4><a href="#">{{book.name}}</a></h4>
-					<a href="#"><img src="{{MEDIA_URL}}{{book.image}}"></a>
+					<h4><a href="{% url 'books:detail' book.id %}">{{book.name}}</a></h4>
+					<a href="{% url 'books:detail' book.id %}"><img src="{{MEDIA_URL}}{{book.image}}"></a>
 					<div class="prize">¥ {{book.price}}</div>
 				</li>
                             {% endfor %} 
@@ -172,10 +172,10 @@ BookStore index
 			<div class="subtitle fl">
 			  <span>|</span>
 			  {% for book in database_new %}
-				<a href="#">{{book.name}}</a>
+				<a href="{% url 'books:detail' book.id %}">{{book.name}}</a>
                           {% endfor %}
 			</div>
-			<a href="#" class="book_more fr">查看更多 ></a>
+			<a href="{% url 'books:list' type_id=6 page=1 %}" class="book_more fr">查看更多 ></a>
 		</div>
 
 		<div class="book_con clearfix">
@@ -183,13 +183,14 @@ BookStore index
 			  <ul class="book_list fl">
 			    {% for book in database_hot%}
 				<li>
-					<h4><a href="#">{{book.name}}</a></h4>
-					<a href="#"><img src="{{MEDIA_URL}}{{book.image}}"></a>
+					<h4><a href="{% url 'books:detail' book.id %}">{{book.name}}</a></h4>
+					<a href="{% url 'books:detail' book.id %}"><img src="{{MEDIA_URL}}{{book.image}}"></a>
 					<div class="prize">¥ {{book.price}}</div>
 				</li>
 			     {% endfor %}
 			</ul>
 		</div>
 	</div>
+
 
 {% endblock %}
